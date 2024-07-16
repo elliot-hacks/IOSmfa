@@ -1,0 +1,59 @@
+
+    <h1>Fingerprint Scan</h1>
+    <p>Welcome, {{ request.user.username }}</p>
+
+    <div>
+        <button id="start-scanning">Start Scanning</button>
+    </div>
+
+    <div>
+        <button id="submit-fingerprint">Submit Fingerprint</button>
+    </div>
+
+    <script>
+        var quality = 60;
+        var timeout = 10;
+        var fingerprintTemplate = "{{ fingerprint_template|escapejs }}";
+
+        $('#start-scanning').click(function() {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'capture_fingerprint' %}",
+                data: {
+                    'quality': quality,
+                    'timeout': timeout,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status == 'success') {
+                        alert("Fingerprint captured successfully");
+                    } else {
+                        alert("Error capturing fingerprint: " + response.error);
+                    }
+                }
+            });
+        });
+
+        $('#submit-fingerprint').click(function() {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'match_fingerprint' %}",
+                data: {
+                    'quality': quality,
+                    'timeout': timeout,
+                    'fingerprint_template': fingerprintTemplate,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.status == 'success') {
+                        alert("Fingerprint matched successfully");
+                        // You can redirect to another page here
+                        window.location.href = "{% url 'some_other_view' %}";
+                    } else {
+                        alert("Fingerprint match failed: " + response.message);
+                    }
+                }
+            });
+        });
+    </script>
+

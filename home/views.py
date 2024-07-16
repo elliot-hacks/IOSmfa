@@ -7,7 +7,7 @@ from .models import UserProfile
 # Initialize Mantra SDK
 sdk = MantraSDK()
 
-@login_required
+# @login_required
 def fingerprint_scan(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -16,7 +16,7 @@ def fingerprint_scan(request):
     }
     return render(request, 'fingerprint_scan.html', context)
 
-@login_required
+# @login_required
 def match_fingerprint(request):
     if request.method == "POST":
         quality = request.POST.get('quality', 60)
@@ -34,7 +34,7 @@ def match_fingerprint(request):
             return JsonResponse({'status': 'error', 'message': 'HTTP request failed', 'error': response['err']})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
-@login_required
+# @login_required
 def capture_fingerprint(request):
     if request.method == "POST":
         quality = request.POST.get('quality', 60)

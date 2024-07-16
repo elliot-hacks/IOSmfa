@@ -1,13 +1,8 @@
 from django.urls import path
 from . import views
-from django.contrib.auth import views as auth_views
-
-app_name = 'accounts'
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('login/', views.login, name='login'),
-    path('register/', views.register, name='register'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('remove_user_and_redirect', views.remove_user_and_redirect, name='remove_user_and_redirect'),
+    path('fingerprint_scan/', views.fingerprint_scan, name='fingerprint_scan'),
+    path('match_fingerprint/', views.match_fingerprint, name='match_fingerprint'),
+    path('capture_fingerprint/', views.capture_fingerprint, name='capture_fingerprint'),
 ]

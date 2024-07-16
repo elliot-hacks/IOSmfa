@@ -1,16 +1,9 @@
-# models.py
 from django.db import models
+from django.contrib.auth.models import User
 
-class Register(models.Model):
-    email_id = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)
-    confirm_password = models.CharField(max_length=128)
-    activation = models.BooleanField(default=True)
-    ip = models.GenericIPAddressField()
-    date = models.DateTimeField(auto_now_add=True)
-    fingerprint = models.TextField()
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    fingerprint_template = models.TextField(blank=True, null=True)
 
-class Login(models.Model):
-    email_id = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)
-    activation = models.BooleanField(default=True)
+    def __str__(self):
+        return self.user.username
