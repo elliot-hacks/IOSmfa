@@ -1,3 +1,7 @@
+USERNAME_MAX_LENGTH = 100
+DISPLAY_NAME_MAX_LENGTH = 20
+
+
 def validate_username(username):
     if not isinstance(username, six.string_types):
         return False
