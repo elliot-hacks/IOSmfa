@@ -8,31 +8,32 @@ from .utils import encrypt
 import hashlib
 
 # Create your views here.
-# utils.py
-import base64
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad, unpad
-import hashlib
-import os
 
-ENCRYPTION_KEY = 'd0a7e7997b6d5fcd55f4b5c32611b87cd923e88837b63bf2941ef819dc8ca282'
 
-def encrypt(data):
-    key = hashlib.sha256(ENCRYPTION_KEY.encode()).digest()
-    iv = os.urandom(AES.block_size)
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    encrypted_data = cipher.encrypt(pad(data.encode(), AES.block_size))
-    encoded_data = base64.b64encode(encrypted_data).decode('utf-8') + '|' + base64.b64encode(iv).decode('utf-8')
-    return encoded_data
 
-def decrypt(encoded_data):
-    key = hashlib.sha256(ENCRYPTION_KEY.encode()).digest()
-    encoded_data, iv = encoded_data.split('|')
-    encrypted_data = base64.b64decode(encoded_data)
-    iv = base64.b64decode(iv)
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    decrypted_data = unpad(cipher.decrypt(encrypted_data), AES.block_size)
-    return decrypted_data.decode('utf-8')
+
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from .models import UserProfile
+
+@login_required
+def user_login(request):
+    if request.method == 'POST' and 'submit' in request.POST:
+        fingerprint_matched = request.POST.get('fingerprint_matched', '0')
+        if fingerprint_matched == '1':
+            return redirect('next_page_url')  # Change 'next_page_url' to the appropriate URL
+
+    user_profile = UserProfile.objects.get(user=request.user)
+    context = {
+        'fingerprint': user_profile.fingerprint,
+    }
+    return render(request, 'user_login.html', context)
+
+@login_required
+def get_fingerprint(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    return JsonResponse({'fingerprint': user_profile.fingerprint})
 
 
 def register_view(request):
