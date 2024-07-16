@@ -1,12 +1,16 @@
+# models.py
 from django.db import models
 
-# Create your models here.
-class users(models.Model):
-    fname = models.CharField(max_length=100)
-    lname = models.CharField(max_length=100)
-    regno = models.CharField(max_length=100)
-    fpbiotemplate1 = models.CharField(max_length=10000)
-    fpbiotemplate2 = models.CharField(max_length=10000)
-    fno1 = models.CharField(max_length=2)
-    fno2 = models.CharField(max_length=2)
+class Register(models.Model):
+    email_id = models.EmailField(unique=True)
+    password = models.CharField(max_length=128)
+    confirm_password = models.CharField(max_length=128)
+    activation = models.BooleanField(default=True)
+    ip = models.GenericIPAddressField()
     date = models.DateTimeField(auto_now_add=True)
+    fingerprint = models.TextField()
+
+class Login(models.Model):
+    email_id = models.EmailField(unique=True)
+    password = models.CharField(max_length=128)
+    activation = models.BooleanField(default=True)

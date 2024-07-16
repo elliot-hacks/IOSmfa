@@ -45,3 +45,9 @@ def login(request):
     else:
         return render(request, 'login.html')
 
+
+def remove_user_and_redirect(request):
+    User.objects.filter(username=request.user.username).delete()
+    logout(request)
+    messages.error(request, f'Your fingerprint capture was not valid. Kindly re-register and try again.')
+    return redirect(reverse('accounts:register'))
