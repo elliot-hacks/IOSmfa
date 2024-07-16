@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mfa',
     'home',
+    'fingerprint_api',
 ]
 
 MIDDLEWARE = [
