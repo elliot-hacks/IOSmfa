@@ -1,6 +1,6 @@
 # forms.py
 from django import forms
-from .models import Device, UserProfile
+from .models import Device, User
 
 # class RegisterForm(forms.ModelForm):
 #     exampleInputPassword2 = forms.CharField(widget=forms.PasswordInput(), label="Confirm Password")
@@ -74,7 +74,7 @@ class DeviceForm(forms.ModelForm):
 
 class UserForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
+        model = User
         fields = [
             'username',
         ]

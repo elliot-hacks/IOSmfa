@@ -12,7 +12,7 @@ urlpatterns = [
     path('delete_device/<int:id_device>', views.delete_device, name='device-delete'),
     path('getac_device', views.getac_device, name='getac-device'),
     # Log URLS
-    path('logs', views.log_index, name='log-index'),
+    path('log', views.log_index, name='log-index'),
     path('message', views.log_message, name='log-message'),
     # User urls
     path('create_user', views.create_user, name='user-create'),
