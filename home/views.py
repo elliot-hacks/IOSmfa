@@ -2,19 +2,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.utils import timezone
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 from .models import Register, Login
 from .utils import encrypt
 import hashlib
-
-# Create your views here.
-
-
-
-
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
 from .models import UserProfile
 
 @login_required
