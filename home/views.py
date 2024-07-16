@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import register
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
+from datetime import datetime
 import hashlib
 from .mantra_sdk import MantraSDK
 from .models import Device, User, Finger
