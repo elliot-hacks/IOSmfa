@@ -137,7 +137,7 @@ MEDIA_URL = '/media/'
 
 # MFA settings
 MFA_UNALLOWED_METHODS=()   # Methods that shouldn't be allowed for the user
-MFA_LOGIN_CALLBACK="accounts.views.login_user_in"            # A function that should be called by username to login the user in session
+MFA_LOGIN_CALLBACK="accounts.views.login_user_in" # A function that should be called by username to login the user in session
 MFA_RECHECK=True           # Allow random rechecking of the user
 MFA_RECHECK_MIN=10         # Minimum interval in seconds
 MFA_RECHECK_MAX=30         # Maximum in seconds
@@ -146,7 +146,7 @@ MFA_QUICKLOGIN=True        # Allows quick login for returning users
 TOKEN_ISSUER_NAME="django_mfa2_example"      #TOTP Issuer name, this should be your project's name
 
 if DEBUG:
-  U2F_APPID="https://localhost"    #URL For U2F
+  U2F_APPID="http://localhost"    #URL For U2F
   FIDO_SERVER_ID=u"localhost"      # Server rp id for FIDO2, it is the full domain of your project
 else:
   U2F_APPID="https://django-mfa2-example.herokuapp.com"    #URL For U2F
