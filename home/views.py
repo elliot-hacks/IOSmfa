@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .mantra_sdk import MantraSDK
-from .models import UserProfile
+from .models import Device
+from .forms import DeviceForm
 
 # Initialize Mantra SDK
 sdk = MantraSDK()
@@ -47,6 +48,89 @@ def capture_fingerprint(request):
         else:
             return JsonResponse({'status': 'error', 'message': 'HTTP request failed', 'error': response['err']})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+
+# Devices API
+def create_device(request):
+    form = DeviceForm()
+    if request.method == 'POST':
+        form = DeviceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/device/')
+        else:
+            return HttpResponse('Error in forms, click <a href="/device/">here</a> to go back')
+    else:
+        context = {
+            'form': form,
+            'menu': 'device'
+        }
+        return render(request, 'device/form.html', context)
+
+
+def read_device(request):
+    devices = Device.objects.all()
+    context = {
+        'devices': devices,
+        'menu': 'device'
+    }
+    return render(request, 'device/index.html', context)
+
+
+def update_device(request, id_device):
+    device_id = int(id_device)
+    try:
+        device = Device.objects.get(id=device_id)
+    except Device.DoesNotExist:
+        return redirect('/device/')
+    form = DeviceForm(request.POST or None, instance=device)
+    if form.is_valid():
+        form.save()
+        return redirect('/device/')
+    else:
+        context = {
+            'form': form,
+            'menu': 'device'
+        }
+        return render(request, 'apps/device/form.html', context)
+
+
+def delete_device(request, id_device):
+    device_id = int(id_device)
+    try:
+        device = Device.objects.get(id=device_id)
+    except Device.DoesNotExist:
+        return redirect('/device/')
+    device.delete()
+    return redirect('/device/')
+
+
+def getac_device(request):
+    vc = request.GET.get('vc')
+    try:
+        device_acsn = Device.objects.get(vc=vc)
+        return HttpResponse(device_acsn.ac + device_acsn.sn)
+    except Device.DoesNotExist:
+        return HttpResponse('empty')
+
+
+# Logs
+def log_index(request):
+    context = {
+        'menu': 'log'
+    }
+    return render(request, 'apps/log/index.html', context)
+
+
+def log_message(request):
+    user_name = request.GET.get('user_name')
+    time = request.GET.get('time')
+    if user_name is not None and time is not None:
+        return HttpResponse(user_name + ' login success on ' + str(datetime.strptime(time, '%Y%m%d%H%M%S')))
+    else:
+        message = request.GET.get('msg')
+        return HttpResponse(message)
+
 
 
 
