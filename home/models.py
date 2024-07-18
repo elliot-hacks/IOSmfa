@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Finger(models.Model):
-    user = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE, related_name='home_user')
     finger_id = models.AutoField(primary_key=True)
     finger_data = models.TextField(max_length=255, null=False, blank=False)
 

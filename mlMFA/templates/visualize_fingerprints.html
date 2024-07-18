@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visualize Fingerprints</title>
+</head>
+<body>
+    <h1>Fingerprints for {{ user.username }}</h1>
+    <div>
+        {% for fingerprint in fingerprints %}
+            <div>
+                <img src="{{ fingerprint.image.url }}" alt="Fingerprint" width="200">
+                <p>Uploaded at: {{ fingerprint.uploaded_at }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

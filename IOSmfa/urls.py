@@ -8,8 +8,9 @@ import mfa.TrustedDevice
 
 
 urlpatterns = [
+    path('', include('mlMFA.urls')),
     path('home', include('home.urls')),
-    path('', include('fingerprint_api.urls')),
+    path('api/', include('fingerprint_api.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('mfa/', include('mfa.urls')), #required to use mfa
