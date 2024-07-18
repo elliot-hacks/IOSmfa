@@ -4,7 +4,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 # Django mfa
 import mfa
-import mfa.TrustedDevice
+# import mfa.TrustedDevice
 
 
 urlpatterns = [
@@ -14,7 +14,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('mfa/', include('mfa.urls')), #required to use mfa
-    path('devices_root/add/', mfa.TrustedDevice.add, name="mfa_add_new_trusted_device"), #required if you intend adding some devices
+    # path('devices_root/add/', mfa.TrustedDevice.add, name="mfa_add_new_trusted_device"), #required if you intend adding some devices
 ]
 
 

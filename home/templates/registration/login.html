@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% load static %}
 <html>
 <head>
 <meta charset="utf-8">
@@ -36,7 +36,7 @@ function Match() {
     try {
         // Get the fingerprint from the server
         $.ajax({
-            url: "{% url 'get_fingerprint' %}",
+            url: "{% url 'capture_fingerprint' %}",
             method: "GET",
             success: function(data) {
                 var isotemplate = data.fingerprint;
@@ -82,7 +82,7 @@ function redirect() {
     <div class="panel panel-primary">
         <div class="panel-heading font"></div>
         <div class="panel-body">
-            <form method="post" name="myForm" action="{% url 'user_login' %}" onsubmit="return redirect()">
+            <form method="post" name="myForm" action="{% url 'user-read' %}" onsubmit="return redirect()">
                 {% csrf_token %}
                 <input type="hidden" id="fingerprint_matched" name="fingerprint_matched" value="0">
                 
